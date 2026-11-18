@@ -32,7 +32,7 @@ class FactoryController:
         print("Time", self.env.now, "Device", d.device_id, "State", d.state,
               "| rack size", self.idle_rack.size())
 
-     # NEW: pulls devices off the IdleRack and assigns them a charger
+     # pulls devices off the IdleRack and assigns them a charger
     def dispatcher(self):
         while True:
             d = yield self.idle_rack.get()           # wait for a device in the rack
@@ -52,6 +52,9 @@ class FactoryController:
                 print("Time", self.env.now, "Device", d.device_id, "assigned to", cs.station_id)
                 return cs
         return None
+
+    def charge_device(self, d, cs):
+        
 
     
         

@@ -5,3 +5,6 @@ class Device:
         self.device_id = device_id
         self.state = "NEW"
         self.arrival_time = None
+        self.charge_start = None
+        self.charge_end = None 
+        self.battery_level = None
