@@ -10,3 +10,6 @@ class IdleRack:
 
     def size(self):
         return len(self.queue.items)
+
+    def get(self):
+        return self.queue.get()
