@@ -42,6 +42,7 @@ class FactoryController:
             while cs is None:                        # all chargers busy → retry every minute
                 yield self.env.timeout(1)
                 cs = self.assign_charger(d)
+            self.env.process(cs.charging(d)) 
 
 
     def assign_charger(self, d):
@@ -53,8 +54,7 @@ class FactoryController:
                 return cs
         return None
 
-    def charge_device(self, d, cs):
-        
+       
 
     
         
