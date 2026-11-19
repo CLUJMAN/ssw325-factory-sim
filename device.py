@@ -8,3 +8,6 @@ class Device:
         self.charge_start = None
         self.charge_end = None 
         self.battery_level = None
+        self.test_start = None 
+        self.test_end = None 
+        
