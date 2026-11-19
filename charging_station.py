@@ -2,9 +2,11 @@ import simpy
 import random 
 
 class ChargingStation:
-    def __init__(self, env, station_id, mean_charge_time=30):   
+    def __init__(self, env, station_id, position, mean_charge_time=30):   
         self.env = env                                           
         self.station_id = station_id
+        self.name = station_id               # used in MoveCommand descriptions
+        self.position = position             # (x, y) grid location
         self.mean_charge_time = mean_charge_time
         self.current_device = None
 
