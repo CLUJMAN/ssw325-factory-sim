@@ -1,5 +1,7 @@
 import random
 import simpy
+from charging_station import ChargingStation
+from test_branch import TestStation
 
 
 class RoboticArm:
@@ -20,12 +22,18 @@ class RoboticArm:
         return distance * self.base_travel_rate * random.uniform(0.95, 1.05)
 
     def pick(self, d, loc):
-        if hasattr(loc, "unload"):                    # stations/benches; IdleRack already gave d up via get()
-            loc.unload()
+        # IdleRack already gave d up via get(), so only stations need unloading
+        if isinstance(loc, ChargingStation):
+            loc.unload_charging(d)
+        elif isinstance(loc, TestStation):
+            loc.unload_test(d)
         self.held_device = d
 
     def place(self, d, loc):
-        loc.load(d)
+        if isinstance(loc, ChargingStation):
+            loc.load_charging(d)
+        elif isinstance(loc, TestStation):
+            loc.load_test(d)
         self.held_device = None
 
     # SimPy process: wait for the arm, travel to source, pick, travel to destination, place

@@ -11,27 +11,29 @@ class ChargingStation:
         self.current_device = None
 
 
-    def load(self, d):
+    def load_charging(self, d):
         self.current_device = d
 
-    def is_available(self):
+    def unload_charging(self, d):
+        d = self.current_device 
+        self.current_device = None
+        return d 
+
+    def is_available_charging(self):
         return self.current_device is None
 
-    def reserve(self, d):
+    def reserve_charging(self, d):
         self.current_device = d
 
-    def unload(self):
-        d = self.current_device
-        self.current_device = None
-        return d
-
-    def charging(self, d):
+    def charge_device(self, d):
         charge_time = random.expovariate(1 / self.mean_charge_time)
         d.charge_start = self.env.now
+        d.state = "CHARGING"
 
         yield self.env.timeout(charge_time)
 
         d.charge_end = self.env.now
         d.state = "CHARGED"  # Use the state name your model expects
-        self.current_device = None  # Station is available again
-        print(f"Time {self.env.now:.2f} Device {d.device_id} finished charging on {self.station_id}")
+        print("Time", self.env.now, "Device", d.device_id, "finished charging")
+
+    
