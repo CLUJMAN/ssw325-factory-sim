@@ -2,6 +2,7 @@ import random
 import simpy
 from charging_station import ChargingStation
 from test_branch import TestStation
+from done_rack import DoneRack
 
 
 class RoboticArm:
@@ -27,6 +28,7 @@ class RoboticArm:
             loc.unload_charging(d)
         elif isinstance(loc, TestStation):
             loc.unload_test(d)
+        d.location = self.arm_id
         self.held_device = d
 
     def place(self, d, loc):
@@ -34,6 +36,9 @@ class RoboticArm:
             loc.load_charging(d)
         elif isinstance(loc, TestStation):
             loc.load_test(d)
+        elif isinstance(loc, DoneRack):
+            loc.put(d)
+        d.location = loc.name
         self.held_device = None
 
     # SimPy process: wait for the arm, travel to source, pick, travel to destination, place
